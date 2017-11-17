@@ -24,11 +24,14 @@ class RelationBuilder
         // We will manually add a relationship for every attribute registered
         // of this entity. Once we know the relation method we have to use,
         // we will just add it to the entityAttributeRelations property.
-        foreach ($attributes as $attribute) {
-            $relation = $this->getRelationClosure($entity, $attribute);
+        if($attributes) {
+            foreach ($attributes as $attribute) {
+                $relation = $this->getRelationClosure($entity, $attribute);
 
-            $entity->setEntityAttributeRelation($attribute->getAttribute('slug'), $relation);
+                $entity->setEntityAttributeRelation($attribute->getAttribute('slug'), $relation);
+            }
         }
+
     }
 
     /**

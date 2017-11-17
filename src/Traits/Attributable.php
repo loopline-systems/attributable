@@ -57,8 +57,11 @@ trait Attributable
     public static function bootAttributable()
     {
         $models = array_merge([static::class], array_values(class_parents(static::class)));
-        $attributes = DB::table(config('rinvex.attributable.tables.attribute_entity'))->whereIn('entity_type', $models)->get()->pluck('attribute_id');
-        static::$entityAttributes = Attribute::whereIn('id', $attributes)->get()->keyBy('slug');
+
+        try {
+            $attributes = DB::table(config('rinvex.attributable.tables.attribute_entity'))->whereIn('entity_type', $models)->get()->pluck('attribute_id');
+            static::$entityAttributes = Attribute::whereIn('id', $attributes)->get()->keyBy('slug');
+        } catch(\Exception $ex) {}
 
         static::addGlobalScope(new EagerLoadScope());
 
@@ -255,7 +258,7 @@ trait Attributable
     {
         $key = $this->getEntityAttributeName($key);
 
-        return $this->getEntityAttributes()->has($key);
+        return $this->getEntityAttributes() ? $this->getEntityAttributes()->has($key) : null;
     }
 
     /**
