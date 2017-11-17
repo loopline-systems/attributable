@@ -46,7 +46,7 @@ class AttributableServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             // Load migrations
-            $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+            #$this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
             // Publish Resources
             $this->publishResources();
